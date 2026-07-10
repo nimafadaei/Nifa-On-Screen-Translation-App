@@ -21,6 +21,7 @@ export default function App() {
   const [showTouchVectors, setShowTouchVectors] = useState(false);
   const [hoveredNode, setHoveredNode] = useState<AccessibilityNode | null>(null);
   const [flagNotTouchable, setFlagNotTouchable] = useState(false);
+  const [overlayAnimation, setOverlayAnimation] = useState<'fade' | 'slide'>('fade');
 
   const themeStyles = {
     appleGlass: {
@@ -384,6 +385,7 @@ export default function App() {
               onHoverNode={setHoveredNode}
               hoveredNode={hoveredNode}
               flagNotTouchable={flagNotTouchable}
+              overlayAnimation={overlayAnimation}
             />
 
             {/* Simulated Hard Buttons beneath phone for extra realism */}
@@ -604,9 +606,9 @@ export default function App() {
                 
                 <div className={`p-4 rounded-xl border transition-all duration-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#121216]/50 hover:bg-neutral-900/10 ${currentTheme.border}`}>
                   <div className="space-y-1 text-right flex-1" style={{ direction: 'rtl' }}>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white text-xs">شبیه‌سازی پرچم FLAG_NOT_TOUCHABLE (شفافیت به لمس)</span>
+                    <div className="flex items-center gap-2 justify-end">
                       <span className={`text-[8px] px-1.5 py-0.2 rounded font-mono ${currentTheme.badge}`}>Pass-Through Input</span>
+                      <span className="font-semibold text-white text-xs">شبیه‌سازی پرچم FLAG_NOT_TOUCHABLE (شفافیت به لمس)</span>
                     </div>
                     <p className="text-[10px] text-gray-400 leading-normal">
                       با فعال‌سازی این پرچم سیستم‌عاملی، لایه اورلی ترجمه هیچ لمسی را جذب نکرده و تمامی کلیک‌ها مستقیماً به برنامه‌های زیرین منتقل می‌شود. برای تست، پس از فعال‌سازی، روی کارت‌ها در گوشی شبیه‌ساز کلیک کنید.
@@ -625,6 +627,42 @@ export default function App() {
                           ${flagNotTouchable ? 'translate-x-6' : 'translate-x-1'}
                         `}
                       />
+                    </button>
+                  </div>
+                </div>
+
+                <div className={`p-4 rounded-xl border transition-all duration-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#121216]/50 hover:bg-neutral-900/10 ${currentTheme.border}`}>
+                  <div className="space-y-1 text-right flex-1" style={{ direction: 'rtl' }}>
+                    <div className="flex items-center gap-2 justify-end">
+                      <span className={`text-[8px] px-1.5 py-0.2 rounded font-mono ${currentTheme.badge}`}>UX Animation Style</span>
+                      <span className="font-semibold text-white text-xs">انیمیشن ورود لایه‌های اورلی (Overlay Entrance Animation)</span>
+                    </div>
+                    <p className="text-[10px] text-gray-400 leading-normal">
+                      کنترل شیوه و انیمیشن ورود کارت‌های ترجمه روی صفحه. بین حالت **محو شدن ساده (Fade-In)** و **لغزش به بالا (Slide-Up)** جابجا شوید.
+                    </p>
+                  </div>
+                  <div className="flex items-center shrink-0 self-end sm:self-auto gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
+                    <button
+                      id="animation-fade-toggle"
+                      onClick={() => setOverlayAnimation('fade')}
+                      className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
+                        ${overlayAnimation === 'fade' 
+                          ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
+                          : 'text-gray-400 hover:text-white'}
+                      `}
+                    >
+                      Fade-In
+                    </button>
+                    <button
+                      id="animation-slide-toggle"
+                      onClick={() => setOverlayAnimation('slide')}
+                      className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
+                        ${overlayAnimation === 'slide' 
+                          ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
+                          : 'text-gray-400 hover:text-white'}
+                      `}
+                    >
+                      Slide-Up
                     </button>
                   </div>
                 </div>

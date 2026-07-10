@@ -18,6 +18,7 @@ interface AndroidPhoneProps {
   onHoverNode: (node: AccessibilityNode | null) => void;
   hoveredNode: AccessibilityNode | null;
   flagNotTouchable?: boolean;
+  overlayAnimation?: 'fade' | 'slide';
 }
 
 export default function AndroidPhone({
@@ -32,6 +33,7 @@ export default function AndroidPhone({
   onHoverNode,
   hoveredNode,
   flagNotTouchable = false,
+  overlayAnimation = 'fade',
 }: AndroidPhoneProps) {
   const phoneFrameRef = useRef<HTMLDivElement>(null);
   
@@ -185,8 +187,8 @@ export default function AndroidPhone({
                   return (
                     <motion.div
                       key={`inline-${node.id}`}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      initial={overlayAnimation === 'fade' ? { opacity: 0, scale: 0.95, y: 0 } : { opacity: 0, y: 15, scale: 1 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
                       className="absolute overflow-hidden cursor-pointer rounded shadow-lg flex items-center justify-center p-1.5 border"
                       style={{
                         top: `${node.bounds.top}%`,
@@ -308,7 +310,7 @@ export default function AndroidPhone({
                   return (
                     <motion.div
                       key={`fade-${node.id}`}
-                      initial={{ opacity: 0, y: 6 }}
+                      initial={overlayAnimation === 'fade' ? { opacity: 0, y: 0 } : { opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="absolute z-40 pointer-events-auto"
                       style={{
@@ -332,20 +334,42 @@ export default function AndroidPhone({
                           `}
                         />
 
-                        {/* Translation Content */}
-                        <div className="flex items-start justify-between gap-2">
-                          <span className="text-[10.5px] leading-snug font-medium flex-1 text-right">
-                            {translatedText}
-                          </span>
-                          
-                          {/* Mini language badge */}
-                          <span className={`text-[7px] font-mono px-1 py-0.2 rounded font-bold uppercase shrink-0 mt-0.5
-                            ${isWhiteBg 
-                              ? 'bg-blue-100 text-blue-700' 
-                              : 'bg-blue-500/15 text-blue-400 border border-blue-500/20'}
-                          `}>
-                            {targetLang.code}
-                          </span>
+                        {/* Parallel Lines: Original & Translated */}
+                        <div className="flex flex-col gap-1.5 text-right">
+                          {/* Original Text Line */}
+                          <div 
+                            className={`flex items-start justify-between gap-2 border-b pb-1.5
+                              ${isWhiteBg ? 'border-slate-200/60' : 'border-white/10'}
+                            `} 
+                            style={{ direction: 'ltr' }}
+                          >
+                            <span className={`text-[9.5px] leading-snug flex-1 text-left font-normal
+                              ${isWhiteBg ? 'text-slate-500' : 'text-slate-400'}
+                            `}>
+                              {node.text}
+                            </span>
+                            <span className={`text-[7px] font-mono px-1 py-0.2 rounded font-bold uppercase shrink-0 mt-0.5
+                              ${isWhiteBg ? 'bg-slate-100 text-slate-500' : 'bg-white/5 text-slate-400'}
+                            `}>
+                              EN
+                            </span>
+                          </div>
+
+                          {/* Translated Text Line */}
+                          <div className="flex items-start justify-between gap-2" style={{ direction: targetLang.direction }}>
+                            <span className={`text-[10.5px] leading-snug font-medium flex-1 text-right
+                              ${isWhiteBg ? 'text-blue-900' : 'text-blue-300'}
+                            `}>
+                              {translatedText}
+                            </span>
+                            <span className={`text-[7px] font-mono px-1 py-0.2 rounded font-bold uppercase shrink-0 mt-0.5
+                              ${isWhiteBg 
+                                ? 'bg-blue-100 text-blue-700' 
+                                : 'bg-blue-500/15 text-blue-400 border border-blue-500/20'}
+                            `}>
+                              {targetLang.code}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
