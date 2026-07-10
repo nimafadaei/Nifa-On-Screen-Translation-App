@@ -19,6 +19,7 @@ interface AndroidPhoneProps {
   hoveredNode: AccessibilityNode | null;
   flagNotTouchable?: boolean;
   overlayAnimation?: 'fade' | 'slide';
+  overlayDuration?: number;
 }
 
 export default function AndroidPhone({
@@ -34,6 +35,7 @@ export default function AndroidPhone({
   hoveredNode,
   flagNotTouchable = false,
   overlayAnimation = 'fade',
+  overlayDuration = 300,
 }: AndroidPhoneProps) {
   const phoneFrameRef = useRef<HTMLDivElement>(null);
   
@@ -189,6 +191,7 @@ export default function AndroidPhone({
                       key={`inline-${node.id}`}
                       initial={overlayAnimation === 'fade' ? { opacity: 0, scale: 0.95, y: 0 } : { opacity: 0, y: 15, scale: 1 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: overlayDuration / 1000 }}
                       className="absolute overflow-hidden cursor-pointer rounded shadow-lg flex items-center justify-center p-1.5 border"
                       style={{
                         top: `${node.bounds.top}%`,
@@ -312,6 +315,7 @@ export default function AndroidPhone({
                       key={`fade-${node.id}`}
                       initial={overlayAnimation === 'fade' ? { opacity: 0, y: 0 } : { opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: overlayDuration / 1000 }}
                       className="absolute z-40 pointer-events-auto"
                       style={{
                         top: `${node.bounds.top + node.bounds.height}%`,

@@ -22,6 +22,7 @@ export default function App() {
   const [hoveredNode, setHoveredNode] = useState<AccessibilityNode | null>(null);
   const [flagNotTouchable, setFlagNotTouchable] = useState(false);
   const [overlayAnimation, setOverlayAnimation] = useState<'fade' | 'slide'>('fade');
+  const [overlayDuration, setOverlayDuration] = useState<number>(300);
 
   const themeStyles = {
     appleGlass: {
@@ -386,6 +387,7 @@ export default function App() {
               hoveredNode={hoveredNode}
               flagNotTouchable={flagNotTouchable}
               overlayAnimation={overlayAnimation}
+              overlayDuration={overlayDuration}
             />
 
             {/* Simulated Hard Buttons beneath phone for extra realism */}
@@ -631,39 +633,66 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className={`p-4 rounded-xl border transition-all duration-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#121216]/50 hover:bg-neutral-900/10 ${currentTheme.border}`}>
-                  <div className="space-y-1 text-right flex-1" style={{ direction: 'rtl' }}>
-                    <div className="flex items-center gap-2 justify-end">
-                      <span className={`text-[8px] px-1.5 py-0.2 rounded font-mono ${currentTheme.badge}`}>UX Animation Style</span>
-                      <span className="font-semibold text-white text-xs">انیمیشن ورود لایه‌های اورلی (Overlay Entrance Animation)</span>
+                <div className={`p-4 rounded-xl border transition-all duration-300 flex flex-col gap-4 bg-[#121216]/50 hover:bg-neutral-900/10 ${currentTheme.border}`}>
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="space-y-1 text-right flex-1" style={{ direction: 'rtl' }}>
+                      <div className="flex items-center gap-2 justify-end">
+                        <span className={`text-[8px] px-1.5 py-0.2 rounded font-mono ${currentTheme.badge}`}>UX Animation Style</span>
+                        <span className="font-semibold text-white text-xs">انیمیشن ورود لایه‌های اورلی (Overlay Entrance Animation)</span>
+                      </div>
+                      <p className="text-[10px] text-gray-400 leading-normal">
+                        کنترل شیوه و انیمیشن ورود کارت‌های ترجمه روی صفحه. بین حالت **محو شدن ساده (Fade-In)** و **لغزش به بالا (Slide-Up)** جابجا شوید.
+                      </p>
                     </div>
-                    <p className="text-[10px] text-gray-400 leading-normal">
-                      کنترل شیوه و انیمیشن ورود کارت‌های ترجمه روی صفحه. بین حالت **محو شدن ساده (Fade-In)** و **لغزش به بالا (Slide-Up)** جابجا شوید.
-                    </p>
+                    <div className="flex items-center shrink-0 self-end sm:self-auto gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
+                      <button
+                        id="animation-fade-toggle"
+                        onClick={() => setOverlayAnimation('fade')}
+                        className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
+                          ${overlayAnimation === 'fade' 
+                            ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
+                            : 'text-gray-400 hover:text-white'}
+                        `}
+                      >
+                        Fade-In
+                      </button>
+                      <button
+                        id="animation-slide-toggle"
+                        onClick={() => setOverlayAnimation('slide')}
+                        className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
+                          ${overlayAnimation === 'slide' 
+                            ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
+                            : 'text-gray-400 hover:text-white'}
+                        `}
+                      >
+                        Slide-Up
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center shrink-0 self-end sm:self-auto gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
-                    <button
-                      id="animation-fade-toggle"
-                      onClick={() => setOverlayAnimation('fade')}
-                      className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
-                        ${overlayAnimation === 'fade' 
-                          ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
-                          : 'text-gray-400 hover:text-white'}
-                      `}
-                    >
-                      Fade-In
-                    </button>
-                    <button
-                      id="animation-slide-toggle"
-                      onClick={() => setOverlayAnimation('slide')}
-                      className={`px-3 py-1.5 rounded-md text-[10px] font-medium transition-all cursor-pointer
-                        ${overlayAnimation === 'slide' 
-                          ? `${currentTheme.navActive || 'bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-sm'}` 
-                          : 'text-gray-400 hover:text-white'}
-                      `}
-                    >
-                      Slide-Up
-                    </button>
+
+                  {/* Slider Control Row */}
+                  <div className="border-t border-white/5 pt-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div className="space-y-0.5 text-right flex-1" style={{ direction: 'rtl' }}>
+                      <div className="flex items-center gap-2 justify-end">
+                        <span className="font-medium text-white text-[11px]">سرعت انیمیشن (Animation Duration)</span>
+                        <span className="text-[10px] font-mono text-blue-400 font-bold">{overlayDuration}ms</span>
+                      </div>
+                      <p className="text-[9px] text-gray-500">مدت زمان ترنزیشن انیمیشن ورود لایه‌های اورلی را بر حسب میلی‌ثانیه تنظیم کنید.</p>
+                    </div>
+                    <div className="w-full sm:w-48 flex items-center gap-3 self-end sm:self-auto">
+                      <span className="text-[9px] text-gray-500 font-mono">100ms</span>
+                      <input
+                        id="animation-duration-slider"
+                        type="range"
+                        min="100"
+                        max="2000"
+                        step="50"
+                        value={overlayDuration}
+                        onChange={(e) => setOverlayDuration(Number(e.target.value))}
+                        className="flex-1 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                      />
+                      <span className="text-[9px] text-gray-500 font-mono">2s</span>
+                    </div>
                   </div>
                 </div>
               </div>
