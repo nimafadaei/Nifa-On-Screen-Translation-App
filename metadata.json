@@ -1,6 +1,6 @@
 {
-  "name": "Android Screen Translator Sandbox",
-  "description": "An interactive simulator and Android developer blueprint showcasing non-intrusive floating screen translation with accessibility gesture pass-through.",
+  "name": "HoloPass",
+  "description": "An interactive simulator and Android developer blueprint showcasing non-intrusive floating screen translation with accessibility gestural touch pass-through.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,4 +1,4 @@
-# Android Screen Translator Sandbox & Developer Blueprint
+# HoloPass — Android Screen Translator Sandbox & Developer Blueprint
 
 [![Framework - React](https://img.shields.io/badge/Framework-React_18-61DAFB?logo=react&logoColor=black&style=flat-square)](https://react.dev)
 [![Bundler - Vite](https://img.shields.io/badge/Bundler-Vite-646CFF?logo=vite&logoColor=white&style=flat-square)](https://vitejs.dev)
@@ -80,8 +80,8 @@ To run the simulator and edit code locally, ensure you have [Node.js](https://no
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/android-screen-translator-sandbox.git
-   cd android-screen-translator-sandbox
+   git clone https://github.com/yourusername/holopass.git
+   cd holopass
    ```
 
 2. **Install project dependencies:**
